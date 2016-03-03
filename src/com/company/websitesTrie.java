@@ -1,9 +1,28 @@
 package com.company;
 
 
+import java.io.*;
+
 public class websitesTrie {
 
     node root = new node(' ');
+
+    websitesTrie(String file){
+        try{
+            BufferedReader rd = new BufferedReader(new FileReader(file));
+            String url;
+            while(true){
+                url = rd.readLine();
+                if(url==null){
+                    break;
+                }
+                addWord(url);
+            }
+        }
+        catch(Exception ex){
+            System.out.println("incorrect file");
+        }
+    }
 
     public void addWord(String url){
         node curNode = root;
@@ -42,6 +61,18 @@ public class websitesTrie {
             i++;
         }
         return i;
+    }
+
+    public boolean contains(String url){
+        node curNode = root;
+        for(int i=0; i<url.length(); i++){
+            Integer nextNodeLoc = findCharLoc(curNode.branches, url.charAt(i));
+            if(nextNodeLoc == null){
+                return false;
+            }
+            curNode = curNode.branches[nextNodeLoc];
+        }
+        return true;
     }
 
 }
