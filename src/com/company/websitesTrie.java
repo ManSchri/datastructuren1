@@ -21,7 +21,7 @@ public class websitesTrie {
             }
         }
         catch(Exception ex){
-            System.out.println("incorrect file");
+            System.out.println("INCORRECT file");
         }
     }
 
@@ -71,8 +71,13 @@ public class websitesTrie {
     public boolean search(node start, String url){
         node curNode = start;
         for(int i=0; i<url.length(); i++){
+            System.out.println(curNode.character);
             Integer nextNodeLoc = findCharLoc(curNode.branches, url.charAt(i));
-            if(nextNodeLoc == null){
+            if(nextNodeLoc == null) {
+
+                return false;
+            }
+            else if(nextNodeLoc==null){
                 return false;
             }
             else {
@@ -86,4 +91,6 @@ public class websitesTrie {
             return false;
         }
     }
+
+
 }
