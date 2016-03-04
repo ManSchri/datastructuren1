@@ -71,19 +71,23 @@ public class websitesTrie {
     public boolean search(node start, String url){
         node curNode = start;
         for(int i=0; i<url.length(); i++){
+            System.out.println(curNode.character);
             Integer nextNodeLoc = findCharLoc(curNode.branches, url.charAt(i));
-            if(nextNodeLoc == null){
-                return false;
-            }
-            else {
+            if(nextNodeLoc != null){
                 curNode = curNode.branches[nextNodeLoc];
             }
+            else if(errors == 0) {
+                errors++;
+            }
+            else {
+                return false;
+            }
         }
-        if(curNode.fullUrl!=null){
-            return true;
+        if(curNode.fullUrl==null){
+            return false;
         }
         else {
-            return false;
+            return true;
         }
     }
 }
