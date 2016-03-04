@@ -2,9 +2,6 @@ package com.company;
 
 import java.util.*;
 
-/**
- * Created by Manon Schriever on 03-03-16.
- */
 public class userInput {
 
     String url;

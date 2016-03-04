@@ -1,12 +1,13 @@
 package com.company;
 
-
 import java.io.*;
 
 public class websitesTrie {
 
     node root = new node(' ');
+    int errors = 0;
 
+    // Read file and put it in the trie
     websitesTrie(String file){
         try{
             BufferedReader rd = new BufferedReader(new FileReader(file));
@@ -16,7 +17,7 @@ public class websitesTrie {
                 if(url==null){
                     break;
                 }
-                addWord(url);
+                addURL(url);
             }
         }
         catch(Exception ex){
@@ -24,7 +25,8 @@ public class websitesTrie {
         }
     }
 
-    public void addWord(String url){
+    // add a URL to the trie
+    public void addURL(String url){
         node curNode = root;
         for(int i=0; i<url.length(); i++){
             Integer charLoc = findCharLoc(curNode.branches, url.charAt(i));
@@ -38,9 +40,10 @@ public class websitesTrie {
 
             }
         }
-        curNode.fullUrl = true;
+        curNode.fullUrl = url;
     }
 
+    // find the child with the right character
     public Integer findCharLoc(node[] branches, char character){
         int i = 0;
         while(branches[i]!=null){
@@ -52,6 +55,7 @@ public class websitesTrie {
         return null;
     }
 
+    // find the next empty spot to put the character in
     public int findEmptySpot(node[] list){
         int i = 0;
         while(true){
@@ -63,16 +67,19 @@ public class websitesTrie {
         return i;
     }
 
-    public boolean contains(String url){
-        node curNode = root;
+    // search the trie for an URL
+    public boolean search(node start, String url){
+        node curNode = start;
         for(int i=0; i<url.length(); i++){
             Integer nextNodeLoc = findCharLoc(curNode.branches, url.charAt(i));
             if(nextNodeLoc == null){
                 return false;
+
             }
-            curNode = curNode.branches[nextNodeLoc];
+            else {
+                curNode = curNode.branches[nextNodeLoc];
+            }
         }
         return true;
     }
-
 }

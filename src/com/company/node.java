@@ -3,7 +3,7 @@ package com.company;
 public class node {
     char character;
     node[] branches;
-    boolean fullUrl;
+    String fullUrl;
 
     node(char letter){
         character = letter;
