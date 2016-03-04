@@ -79,9 +79,11 @@ public class websitesTrie {
                 curNode = curNode.branches[nextNodeLoc];
             }
         }
-        if(curNode.fullUrl==url){
+        if(curNode.fullUrl!=null){
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 }
