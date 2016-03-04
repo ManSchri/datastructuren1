@@ -74,12 +74,14 @@ public class websitesTrie {
             Integer nextNodeLoc = findCharLoc(curNode.branches, url.charAt(i));
             if(nextNodeLoc == null){
                 return false;
-
             }
             else {
                 curNode = curNode.branches[nextNodeLoc];
             }
         }
-        return true;
+        if(curNode.fullUrl==url){
+            return true;
+        }
+        return false;
     }
 }
