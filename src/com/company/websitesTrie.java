@@ -6,7 +6,8 @@ public class websitesTrie {
 
     node root = new node(' ');
     int errors = 0;
-    nodeStack stack = new nodeStack();
+    nodeStack nodes = new nodeStack();
+    char[] totalURL;
 
     // Read file and put it in the trie
     websitesTrie(String file){
@@ -69,13 +70,12 @@ public class websitesTrie {
     }
 
     // search the trie for an URL
-    public String search(node start, String url){
+    public String search(node start, char[] url){
         node curNode = start;
-
-        for(int i=0; i<url.length(); i++){
-            stack.push(curNode);
-            System.out.println(curNode.character);
-            Integer nextNodeLoc = findCharLoc(curNode.branches, url.charAt(i));
+        for(int i=0; i<url.length; i++){
+            System.out.println("curnode: " + curNode.character);
+            nodes.push(curNode);
+            Integer nextNodeLoc = findCharLoc(curNode.branches, url[i]);
             if(nextNodeLoc != null){
                 curNode = curNode.branches[nextNodeLoc];
             }
@@ -83,7 +83,7 @@ public class websitesTrie {
                 errors++;
             }*/
             else {
-                return searchClosestMatch();
+                return searchClosestMatch(url);
             }
         }
         if(curNode.fullUrl!=null){
@@ -94,17 +94,36 @@ public class websitesTrie {
         }
     }
 
-    public String searchClosestMatch(){
-        node parent = stack.pop();
-        for(node child : parent.branches){
-            if(child.fullUrl!=null){
-                return child.fullUrl;
+    public String searchClosestMatch(char[] url){
+        int index = nodes.numElements;
+        node parent = nodes.pop();
+        System.out.println("index: " + index);
+        int i = 0;
+        while(parent!=null && parent.branches[i]!=null){
+            if(parent.branches[i].fullUrl!=null){
+                return parent.branches[i].fullUrl;
+            }
+            char[] partUrl = new char[totalURL.length - index];
+            System.arraycopy(url, index, partUrl, 0, partUrl.length);
+            for (int j = 0; j < partUrl.length; j++) {
+                System.out.println("parturl: " + partUrl[j]);
+            }
+            String found = search(parent.branches[i], partUrl);
+            if(found==null) {
+                i++;
+            }
+            else{
+                return found;
+            /*if(parent.branches[i].character==url[index]) {
+                char[] partUrl = new char[url.length - index];
+                System.arraycopy(url, index, partUrl, 0, partUrl.length);
+                for (int j = 0; j < partUrl.length; j++) {
+                    System.out.println(partUrl[j]);
+                }
+                return search(parent.branches[i], partUrl);*/
             }
         }
-        if(stack.peek()==null){
-            return "not found";
-        }
-        return searchClosestMatch();
+        return searchClosestMatch(url);
     }
 
 }

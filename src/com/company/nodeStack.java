@@ -21,6 +21,9 @@ public class nodeStack {
     }
 
     public node pop(){
+        if(numElements==0){
+            return null;
+        }
         numElements--;
         return stack[numElements];
     }
@@ -34,6 +37,14 @@ public class nodeStack {
         stack[numElements] = element;
         numElements++;
     }
+
+    /*public int stackSize(){
+        int size = 0;
+        while(stack[size]!=null){
+            size++;
+        }
+        return size;
+    }*/
 
 
 
