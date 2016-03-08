@@ -6,6 +6,7 @@ public class websitesTrie {
 
     node root = new node(' ');
     int errors = 0;
+    nodeStack stack = new nodeStack();
 
     // Read file and put it in the trie
     websitesTrie(String file){
@@ -68,26 +69,29 @@ public class websitesTrie {
     }
 
     // search the trie for an URL
-    public boolean search(node start, String url){
+    public String search(node start, String url){
         node curNode = start;
+
         for(int i=0; i<url.length(); i++){
+            stack.push(curNode);
             System.out.println(curNode.character);
             Integer nextNodeLoc = findCharLoc(curNode.branches, url.charAt(i));
             if(nextNodeLoc != null){
                 curNode = curNode.branches[nextNodeLoc];
             }
-            else if(errors == 0) {
+            /*else if(errors == 0) {
                 errors++;
-            }
+            }*/
             else {
-                return false;
+                return "not found";
             }
         }
-        if(curNode.fullUrl==null){
-            return false;
+        if(curNode.fullUrl!=null){
+            return curNode.fullUrl;
         }
         else {
-            return true;
+            return "not found";
         }
     }
+
 }
