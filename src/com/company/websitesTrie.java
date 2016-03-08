@@ -83,7 +83,7 @@ public class websitesTrie {
                 errors++;
             }*/
             else {
-                return "not found";
+                return searchClosestMatch();
             }
         }
         if(curNode.fullUrl!=null){
@@ -92,6 +92,19 @@ public class websitesTrie {
         else {
             return "not found";
         }
+    }
+
+    public String searchClosestMatch(){
+        node parent = stack.pop();
+        for(node child : parent.branches){
+            if(child.fullUrl!=null){
+                return child.fullUrl;
+            }
+        }
+        if(stack.peek()==null){
+            return "not found";
+        }
+        return searchClosestMatch();
     }
 
 }
