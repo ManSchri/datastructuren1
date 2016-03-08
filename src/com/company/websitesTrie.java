@@ -100,27 +100,21 @@ public class websitesTrie {
         System.out.println("index: " + index);
         int i = 0;
         while(parent!=null && parent.branches[i]!=null){
-            if(parent.branches[i].fullUrl!=null){
-                return parent.branches[i].fullUrl;
+            node childNode = parent.branches[i];
+            if(childNode.fullUrl!=null){
+                return childNode.fullUrl;
             }
             char[] partUrl = new char[totalURL.length - index];
-            System.arraycopy(url, index, partUrl, 0, partUrl.length);
+            System.arraycopy(totalURL, index, partUrl, 0, partUrl.length);
             for (int j = 0; j < partUrl.length; j++) {
                 System.out.println("parturl: " + partUrl[j]);
             }
-            String found = search(parent.branches[i], partUrl);
+            String found = search(childNode, partUrl);
             if(found==null) {
                 i++;
             }
             else{
                 return found;
-            /*if(parent.branches[i].character==url[index]) {
-                char[] partUrl = new char[url.length - index];
-                System.arraycopy(url, index, partUrl, 0, partUrl.length);
-                for (int j = 0; j < partUrl.length; j++) {
-                    System.out.println(partUrl[j]);
-                }
-                return search(parent.branches[i], partUrl);*/
             }
         }
         return searchClosestMatch(url);
