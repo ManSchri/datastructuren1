@@ -1,13 +1,13 @@
 package com.company;
 
-public class node {
+public class Node {
     char character;
-    node[] branches;
+    Node[] branches;
     String fullUrl;
 
-    node(char letter){
+    Node(char letter){
         character = letter;
-        branches = new node[300];
+        branches = new Node[300];
         fullUrl = null;
     }
 }
