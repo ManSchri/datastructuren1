@@ -2,15 +2,14 @@ package com.company;
 
 import java.io.*;
 
-public class websitesTrie {
+public class WebsitesTrie {
 
-    node root = new node(' ');
-    int errors = 0;
-    nodeStack nodes = new nodeStack();
-    char[] totalURL;
+    Node root = new Node(' ');
+    int maxErrors = 1;
+    String[] results = new String[50];
 
     // Read file and put it in the trie
-    websitesTrie(String file){
+    WebsitesTrie(String file){
         try{
             BufferedReader rd = new BufferedReader(new FileReader(file));
             String url;
@@ -29,24 +28,23 @@ public class websitesTrie {
 
     // add a URL to the trie
     public void addURL(String url){
-        node curNode = root;
+        Node curNode = root;
         for(int i=0; i<url.length(); i++){
             Integer charLoc = findCharLoc(curNode.branches, url.charAt(i));
             if(charLoc==null){
                 int place = findEmptySpot(curNode.branches);
-                curNode.branches[place] = new node(url.charAt(i));
+                curNode.branches[place] = new Node(url.charAt(i));
                 curNode = curNode.branches[place];
             }
             else{
                 curNode = curNode.branches[charLoc];
-
             }
         }
         curNode.fullUrl = url;
     }
 
     // find the child with the right character
-    public Integer findCharLoc(node[] branches, char character){
+    public Integer findCharLoc(Node[] branches, char character){
         int i = 0;
         while(branches[i]!=null){
             if(branches[i].character == character){
@@ -58,7 +56,7 @@ public class websitesTrie {
     }
 
     // find the next empty spot to put the character in
-    public int findEmptySpot(node[] list){
+    public int findEmptySpot(Object[] list){
         int i = 0;
         while(true){
             if(list[i]==null){
@@ -69,55 +67,83 @@ public class websitesTrie {
         return i;
     }
 
-    // search the trie for an URL
-    public String search(node start, char[] url){
-        node curNode = start;
-        for(int i=0; i<url.length; i++){
-            System.out.println("curnode: " + curNode.character);
-            nodes.push(curNode);
-            Integer nextNodeLoc = findCharLoc(curNode.branches, url[i]);
-            if(nextNodeLoc != null){
-                curNode = curNode.branches[nextNodeLoc];
-            }
-            /*else if(errors == 0) {
-                errors++;
-            }*/
-            else {
-                return searchClosestMatch(url);
+    // compute the minimum number from an array of integers
+    public int min(Integer[] numbers){
+        int min = 100;
+        for(int i=0; i<numbers.length; i++){
+            if(numbers[i]<min){
+                min = numbers[i];
             }
         }
-        if(curNode.fullUrl!=null){
-            return curNode.fullUrl;
-        }
-        else {
-            return "not found";
-        }
+        return min;
     }
 
-    public String searchClosestMatch(char[] url){
-        int index = nodes.numElements;
-        node parent = nodes.pop();
-        System.out.println("index: " + index);
-        int i = 0;
-        while(parent!=null && parent.branches[i]!=null){
-            node childNode = parent.branches[i];
-            if(childNode.fullUrl!=null){
-                return childNode.fullUrl;
+// search function uses the levenshtein distance
+    public String[] search(String url){
+
+        // The first row in a levenshtein table is {0,1,2,...}
+        Integer[] firstRow = new Integer[url.length()+1];
+        for(int i=0; i<url.length()+1; i++){
+            firstRow[i] = i;
+        }
+
+        // Search each trie branch
+        for(Node child : root.branches){
+            if(child==null){
+                break;
             }
-            char[] partUrl = new char[totalURL.length - index];
-            System.arraycopy(totalURL, index, partUrl, 0, partUrl.length);
-            for (int j = 0; j < partUrl.length; j++) {
-                System.out.println("parturl: " + partUrl[j]);
-            }
-            String found = search(childNode, partUrl);
-            if(found==null) {
-                i++;
+            recursiveSearch(child, child.character, url, firstRow);
+        }
+
+        return results;
+
+    }
+
+    public void recursiveSearch(Node node, char letter, String url, Integer[] formerRow){
+
+        int costInsert;
+        int costDelete;
+        int costReplace;
+        int numColumns = url.length()+1;
+
+        Integer[] newRow = new Integer[url.length()+1];
+        newRow[0] = formerRow[0]+1;
+
+
+        for(int i=1; i<numColumns; i++){
+
+            // calculate the cost of each possible transformation
+            costInsert = newRow[i-1]+1;
+            costDelete = formerRow[i] + 1;
+            if(url.charAt(i-1) != letter){
+                costReplace = formerRow[i-1] + 1;
             }
             else{
-                return found;
+                costReplace = formerRow[i-1];
+            }
+            // keep the smallest cost
+            int newCost = Math.min(costDelete, Math.min(costInsert, costReplace));
+            int index = findEmptySpot(newRow);
+            newRow[index] = newCost;
+        }
+
+        /* if the cost is smaller or equal to the maximum number of errors and the current node contains an url,
+           that url is added to the list of results*/
+        if(newRow[url.length()] <= maxErrors && node.fullUrl!=null){
+            int freeSpot = findEmptySpot(results);
+            results[freeSpot] = node.fullUrl;
+        }
+
+        /* if the smallest number of a row is smaller than or equal to the maximum number of errors,
+           search each branche of the current node */
+        if(min(newRow)<=maxErrors){
+            for(Node child : node.branches){
+                if(child==null){
+                    break;
+                }
+                recursiveSearch(child, child.character, url, newRow);
             }
         }
-        return searchClosestMatch(url);
     }
 
 }
