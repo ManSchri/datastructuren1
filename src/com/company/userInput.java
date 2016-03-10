@@ -2,11 +2,11 @@ package com.company;
 
 import java.util.*;
 
-public class userInput {
+public class UserInput {
 
     String url;
 
-    userInput() {
+    UserInput() {
         Scanner reader = new Scanner(System.in);
         System.out.println("Go to: ");
         url = reader.nextLine();
