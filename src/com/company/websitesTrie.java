@@ -5,9 +5,8 @@ import java.io.*;
 public class WebsitesTrie {
 
     Node root = new Node(' ');
-    int maxErrors = 2;
-    String[] results = new String[50];
-    int typos = 0;
+    int maxErrors = 3;
+    Object[][] results = new Object[1000][2];
 
     // Read file and put it in the trie
     WebsitesTrie(String file){
@@ -56,11 +55,23 @@ public class WebsitesTrie {
         return null;
     }
 
-    // find the next empty spot to put the character in
+    // find an empty spot in an one dimensional array
     public int findEmptySpot(Object[] list){
         int i = 0;
         while(true){
             if(list[i]==null){
+                break;
+            }
+            i++;
+        }
+        return i;
+    }
+
+    // find the next empty spot in a 2D array
+    public int findEmptySpot(Object[][] list){
+        int i = 0;
+        while(true){
+            if(list[i][0]==null){
                 break;
             }
             i++;
@@ -80,7 +91,7 @@ public class WebsitesTrie {
     }
 
 // search function uses the Levenshtein distance
-    public String[] search(String url){
+    public Object[][] search(String url){
 
         // The first row in a levenshtein table is {0,1,2,...}
         Integer[] firstRow = new Integer[url.length()+1];
@@ -137,8 +148,8 @@ public class WebsitesTrie {
            that url is added to the list of results*/
         if(newRow[url.length()] <= maxErrors && node.fullUrl!=null){
             int freeSpot = findEmptySpot(results);
-            results[freeSpot] = node.fullUrl;
-            typos = newRow[url.length()];
+            results[freeSpot][0] = node.fullUrl;
+            results[freeSpot][1] = newRow[url.length()];
         }
 
         /* if the smallest number of a row is smaller than or equal to the maximum number of errors,
