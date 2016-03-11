@@ -5,7 +5,7 @@ import java.io.*;
 public class WebsitesTrie {
 
     Node root = new Node(' ');
-    int maxErrors = 1;
+    int maxErrors = 2;
     String[] results = new String[50];
 
     // Read file and put it in the trie
@@ -78,7 +78,7 @@ public class WebsitesTrie {
         return min;
     }
 
-// search function uses the levenshtein distance
+// search function uses the Levenshtein distance
     public String[] search(String url){
 
         // The first row in a levenshtein table is {0,1,2,...}
@@ -92,30 +92,30 @@ public class WebsitesTrie {
             if(child==null){
                 break;
             }
-            recursiveSearch(child, child.character, url, firstRow);
+            recursiveSearch(child, root, url, firstRow);
         }
 
         return results;
 
     }
 
-    public void recursiveSearch(Node node, char letter, String url, Integer[] formerRow){
+    // recursively search for solutions
+    public void recursiveSearch(Node node, Node formerNode, String url, Integer[] formerRow){
 
         int costInsert;
         int costDelete;
         int costReplace;
-        int numColumns = url.length()+1;
+        int numColumns = formerRow.length;
 
         Integer[] newRow = new Integer[url.length()+1];
         newRow[0] = formerRow[0]+1;
-
 
         for(int i=1; i<numColumns; i++){
 
             // calculate the cost of each possible transformation
             costInsert = newRow[i-1]+1;
             costDelete = formerRow[i] + 1;
-            if(url.charAt(i-1) != letter){
+            if(url.charAt(i-1) != node.character){
                 costReplace = formerRow[i-1] + 1;
             }
             else{
@@ -135,13 +135,13 @@ public class WebsitesTrie {
         }
 
         /* if the smallest number of a row is smaller than or equal to the maximum number of errors,
-           search each branche of the current node */
+           search each branch of the current node */
         if(min(newRow)<=maxErrors){
             for(Node child : node.branches){
                 if(child==null){
                     break;
                 }
-                recursiveSearch(child, child.character, url, newRow);
+                recursiveSearch(child, node, url, newRow);
             }
         }
     }
