@@ -18,6 +18,7 @@ public class Main {
                 System.out.println(url);
             }
         }
+        System.out.println(trie.typos);
 
     }
 }
