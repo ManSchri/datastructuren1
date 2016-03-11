@@ -7,6 +7,7 @@ public class WebsitesTrie {
     Node root = new Node(' ');
     int maxErrors = 2;
     String[] results = new String[50];
+    int typos = 0;
 
     // Read file and put it in the trie
     WebsitesTrie(String file){
@@ -137,6 +138,7 @@ public class WebsitesTrie {
         if(newRow[url.length()] <= maxErrors && node.fullUrl!=null){
             int freeSpot = findEmptySpot(results);
             results[freeSpot] = node.fullUrl;
+            typos = newRow[url.length()];
         }
 
         /* if the smallest number of a row is smaller than or equal to the maximum number of errors,
