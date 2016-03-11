@@ -5,20 +5,20 @@ public class Main {
     public static void main(String[] args) {
         WebsitesTrie trie = new WebsitesTrie("URLs.txt");
         UserInput input = new UserInput();
-        String[] foundUrls = trie.search(input.url);
-        if(foundUrls[0] == null){
+        Object[][] foundUrls = trie.search(input.url);
+        if(foundUrls[0][0] == null){
             System.out.println("No results found");
         }
         else {
             System.out.println("Did you mean: ");
-            for (String url : foundUrls) {
-                if (url == null) {
+            for (int i=0; i<foundUrls.length; i++) {
+                if (foundUrls[i][0] == null) {
                     break;
                 }
-                System.out.println(url);
+                System.out.println(foundUrls[i][0]);
+                System.out.println(foundUrls[i][1]);
             }
         }
-        System.out.println(trie.typos);
 
     }
 }
