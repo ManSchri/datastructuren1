@@ -107,6 +107,18 @@ public class WebsitesTrie {
             recursiveSearch(child, root, url, firstRow);
         }
 
+        for(int i=1; i<results.length; i++){
+            if(results[i][0] == null){
+                return results;
+            }
+            Object[] element = results[i];
+            int j=i;
+            while(j>0 && (int) results[j-1][1] > (int) element[1]){
+                results[j]= results[j-1];
+                j = j-1;
+            }
+            results[j] = element;
+        }
         return results;
 
     }
