@@ -9,7 +9,7 @@ public class Main {
         if(foundUrls[0][0] == null){
             System.out.println("No results found");
         }
-        else if (trie.typos > 0){
+        //else if (trie.typos > 0){
             System.out.println("Did you mean: ");
             for (int i=0; i<foundUrls.length; i++) {
                 if (foundUrls[i][0] == null) {
@@ -18,10 +18,10 @@ public class Main {
                 System.out.println(foundUrls[i][0]);
                 System.out.println(foundUrls[i][1]);
             }
-        }
-        else {
-            System.out.println("Result found!");
-        }
+       // }
+       // else {
+         //   System.out.println("Result found!");
+       // }
 
     }
 }
