@@ -112,11 +112,16 @@ public class WebsitesTrie {
 
         for(int i=1; i<numColumns; i++){
 
-            // calculate the cost of each possible transformation
+            // calculate the cost of each possible transformationj
             costInsert = newRow[i-1]+1;
             costDelete = formerRow[i] + 1;
             if(url.charAt(i-1) != node.character){
-                costReplace = formerRow[i-1] + 1;
+                if(i>2 && url.charAt(i-1)==formerNode.character && url.charAt(i-2)==node.character){
+                    costReplace = formerRow[i-1];
+                }
+                else {
+                    costReplace = formerRow[i - 1] + 1;
+                }
             }
             else{
                 costReplace = formerRow[i-1];
