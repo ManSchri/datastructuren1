@@ -11,9 +11,11 @@ public class Main {
         if(foundUrls[0][0] == null){
             System.out.println("No results found");
         }
+        // no typos
         else if ((int) typos == 0) {
             System.out.println("Result found!");
         }
+        // return first five results from the sorted array
         else {
             System.out.println("Did you mean: ");
             for (int i=0; i<5; i++) {
@@ -23,7 +25,7 @@ public class Main {
                 }
                 else {
                     System.out.println(foundUrls[i][0]);
-                    // System.out.println(foundUrls[i][1]);
+                    System.out.println(foundUrls[i][1]);
                 }
             }
         }
