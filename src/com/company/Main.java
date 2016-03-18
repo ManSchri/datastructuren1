@@ -22,8 +22,7 @@ public class Main {
 
                 if (foundUrls[i][0] == null) {
                     break;
-                }
-                else {
+                } else {
                     System.out.println(foundUrls[i][0]);
                     System.out.println(foundUrls[i][1]);
                 }

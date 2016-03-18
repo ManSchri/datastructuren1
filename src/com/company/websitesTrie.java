@@ -21,8 +21,7 @@ public class WebsitesTrie {
                 }
                 addURL(url);
             }
-        }
-        catch(Exception ex){
+        } catch(Exception ex){
             System.out.println("incorrect file");
         }
     }
@@ -36,8 +35,7 @@ public class WebsitesTrie {
                 int place = findEmptySpot(curNode.branches);
                 curNode.branches[place] = new Node(url.charAt(i));
                 curNode = curNode.branches[place];
-            }
-            else{
+            } else{
                 curNode = curNode.branches[charLoc];
             }
         }
@@ -145,12 +143,10 @@ public class WebsitesTrie {
                 if(i>2 && url.charAt(i-1)==formerNode.character
                         && url.charAt(i-2)==node.character){
                     costReplace = formerRow[i-1];
-                }
-                else {
+                } else {
                     costReplace = formerRow[i - 1] + 1;
                 }
-            }
-            else{
+            } else{
                 costReplace = formerRow[i-1];
             }
             // keep the smallest cost
