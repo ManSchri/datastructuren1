@@ -1,5 +1,9 @@
 package com.company;
 
+/**
+ * Combines all other files for the "Did you mean..." assignment
+ */
+
 public class Main {
 
   public static void main(String[] args) {

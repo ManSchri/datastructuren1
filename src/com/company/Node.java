@@ -1,5 +1,9 @@
 package com.company;
 
+/**
+ * Nodes for the tree of the "Did you mean..." assignment.
+ */
+
 public class Node {
   char character;
   Node[] branches;

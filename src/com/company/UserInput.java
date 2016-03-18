@@ -2,7 +2,10 @@ package com.company;
 
 import java.util.Scanner;
 
-// creates the interface and lets the user type in an URL
+/**
+ * Creates the interface and lets the user type in an URL for the
+ * "Did you mean..." assignment.
+ */
 
 public class UserInput {
 

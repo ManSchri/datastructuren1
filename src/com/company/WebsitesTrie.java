@@ -3,6 +3,10 @@ package com.company;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
+/**
+ * The methods used for the "Did you mean..." assignment.
+ */
+
 public class WebsitesTrie {
 
   Node root = new Node(' ');
