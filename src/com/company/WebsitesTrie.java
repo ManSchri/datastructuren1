@@ -31,7 +31,10 @@ public class WebsitesTrie {
     }
   }
 
-  // add a URL to the trie
+  /** add a URL to the trie
+   *
+   * @param url the string to add
+   */
   public void addURL(String url) {
     Node curNode = root;
 
@@ -49,7 +52,12 @@ public class WebsitesTrie {
     curNode.fullUrl = url;
   }
 
-  // find the child with the right character
+  /** find the child with the right character
+   *
+   * @param branches array of nodes to search
+   * @param character char to search for
+   * @return the index of the found node
+   */
   public Integer findCharLoc(Node[] branches, char character) {
     int i = 0;
 
@@ -62,7 +70,11 @@ public class WebsitesTrie {
     return null;
   }
 
-  // find an empty spot in an one dimensional array
+  /** find an empty spot in an one dimensional array
+   *
+   * @param list array
+   * @return the index with an empty spot
+   */
   public int findEmptySpot(Object[] list) {
     int i = 0;
 
@@ -75,7 +87,11 @@ public class WebsitesTrie {
     return i;
   }
 
-  // find the next empty spot in a 2D array
+  /** find the next empty spot in a 2D array
+   *
+   * @param list 2d array
+   * @return the index with an empty spot
+   */
   public int findEmptySpot(Object[][] list) {
     int i = 0;
 
@@ -88,7 +104,11 @@ public class WebsitesTrie {
     return i;
   }
 
-  // compute the minimum number from an array of integers
+  /** compute the minimum number from an array of integers
+   *
+   * @param numbers the ints to compare
+   * @return the smallest int
+   */
   public int min(Integer[] numbers) {
     int min = 100;
 
@@ -100,7 +120,11 @@ public class WebsitesTrie {
     return min;
   }
 
-  // search function uses the Levenshtein distance
+  /** search function uses the Levenshtein distance
+   *
+   * @param url the string to check
+   * @return 2D array
+   */
   public Object[][] search(String url) {
 
     // The first row in a Levenshtein table is {0,1,2,...}
@@ -135,7 +159,13 @@ public class WebsitesTrie {
 
   }
 
-  // recursively search for solutions
+  /** recursively search for solutions
+   *
+   * @param node the current node
+   * @param formerNode the parent node of the current node
+   * @param url the string to search for
+   * @param formerRow the last array with levenshtein-values
+   */
   public void recursiveSearch(Node node, Node formerNode, String url,
                               Integer[] formerRow) {
 
@@ -154,7 +184,7 @@ public class WebsitesTrie {
       costDelete = formerRow[i] + 1;
 
       if (url.charAt(i - 1) != node.character) {
-        if (i > 2 && url.charAt(i - 1) == formerNode.character
+        if (i >= 2 && url.charAt(i - 1) == formerNode.character
                 && url.charAt(i - 2) == node.character) {
           costReplace = formerRow[i - 1];
         } else {
