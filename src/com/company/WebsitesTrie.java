@@ -164,7 +164,7 @@ public class WebsitesTrie {
    * @param node the current node
    * @param formerNode the parent node of the current node
    * @param url the string to search for
-   * @param formerRow the last array with levenshtein-values
+   * @param formerRow the last array with Levenshtein-values
    */
   public void recursiveSearch(Node node, Node formerNode, String url,
                               Integer[] formerRow) {
