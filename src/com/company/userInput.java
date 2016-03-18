@@ -6,11 +6,11 @@ import java.util.Scanner;
 
 public class UserInput {
 
-    String url;
+  String url;
 
-    UserInput() {
-        Scanner reader = new Scanner(System.in);
-        System.out.println("Go to: ");
-        url = reader.nextLine();
-    }
+  UserInput() {
+    Scanner reader = new Scanner(System.in);
+    System.out.println("Go to: ");
+    url = reader.nextLine();
+  }
 }
