@@ -14,6 +14,7 @@ public class WebsitesTrie {
     try {
       BufferedReader rd = new BufferedReader(new FileReader(file));
       String url;
+
       while (true) {
         url = rd.readLine();
         if (url == null) {
@@ -29,6 +30,7 @@ public class WebsitesTrie {
   // add a URL to the trie
   public void addURL(String url) {
     Node curNode = root;
+
     for (int i = 0; i < url.length(); i++) {
       Integer charLoc = findCharLoc(curNode.branches, url.charAt(i));
       if (charLoc == null) {
@@ -39,12 +41,14 @@ public class WebsitesTrie {
         curNode = curNode.branches[charLoc];
       }
     }
+
     curNode.fullUrl = url;
   }
 
   // find the child with the right character
   public Integer findCharLoc(Node[] branches, char character) {
     int i = 0;
+
     while (branches[i] != null) {
       if (branches[i].character == character) {
         return i;
@@ -57,6 +61,7 @@ public class WebsitesTrie {
   // find an empty spot in an one dimensional array
   public int findEmptySpot(Object[] list) {
     int i = 0;
+
     while (true) {
       if (list[i] == null) {
         break;
@@ -69,6 +74,7 @@ public class WebsitesTrie {
   // find the next empty spot in a 2D array
   public int findEmptySpot(Object[][] list) {
     int i = 0;
+
     while (true) {
       if (list[i][0] == null) {
         break;
@@ -81,6 +87,7 @@ public class WebsitesTrie {
   // compute the minimum number from an array of integers
   public int min(Integer[] numbers) {
     int min = 100;
+
     for (int i = 0; i < numbers.length; i++) {
       if (numbers[i] < min) {
         min = numbers[i];
@@ -105,6 +112,7 @@ public class WebsitesTrie {
       }
       recursiveSearch(child, root, url, firstRow);
     }
+
     // sort array based on number of typos with insertion sort
     for (int i = 1; i < results.length; i++) {
       if (results[i][0] == null) {
@@ -112,6 +120,7 @@ public class WebsitesTrie {
       }
       Object[] element = results[i];
       int j = i;
+
       while (j > 0 && (int) results[j - 1][1] > (int) element[1]) {
         results[j] = results[j - 1];
         j = j - 1;
@@ -139,6 +148,7 @@ public class WebsitesTrie {
       // calculate the cost of each possible transformation
       costInsert = newRow[i - 1] + 1;
       costDelete = formerRow[i] + 1;
+
       if (url.charAt(i - 1) != node.character) {
         if (i > 2 && url.charAt(i - 1) == formerNode.character
                 && url.charAt(i - 2) == node.character) {
@@ -149,6 +159,7 @@ public class WebsitesTrie {
       } else {
         costReplace = formerRow[i - 1];
       }
+
       // keep the smallest cost
       int newCost = Math.min(costDelete, Math.min(costInsert,
               costReplace));
