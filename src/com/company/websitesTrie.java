@@ -90,10 +90,10 @@ public class WebsitesTrie {
         return min;
     }
 
-// search function uses the Levenshtein distance
+    // search function uses the Levenshtein distance
     public Object[][] search(String url){
 
-        // The first row in a levenshtein table is {0,1,2,...}
+        // The first row in a Levenshtein table is {0,1,2,...}
         Integer[] firstRow = new Integer[url.length()+1];
         for(int i=0; i<url.length()+1; i++){
             firstRow[i] = i;
@@ -106,7 +106,7 @@ public class WebsitesTrie {
             }
             recursiveSearch(child, root, url, firstRow);
         }
-
+        // sort array based on number of typos with insertion sort
         for(int i=1; i<results.length; i++){
             if(results[i][0] == null){
                 return results;
@@ -124,7 +124,8 @@ public class WebsitesTrie {
     }
 
     // recursively search for solutions
-    public void recursiveSearch(Node node, Node formerNode, String url, Integer[] formerRow){
+    public void recursiveSearch(Node node, Node formerNode, String url,
+                                Integer[] formerRow){
 
         int costInsert;
         int costDelete;
@@ -136,11 +137,12 @@ public class WebsitesTrie {
 
         for(int i=1; i<numColumns; i++){
 
-            // calculate the cost of each possible transformationj
+            // calculate the cost of each possible transformation
             costInsert = newRow[i-1]+1;
             costDelete = formerRow[i] + 1;
             if(url.charAt(i-1) != node.character){
-                if(i>2 && url.charAt(i-1)==formerNode.character && url.charAt(i-2)==node.character){
+                if(i>2 && url.charAt(i-1)==formerNode.character
+                        && url.charAt(i-2)==node.character){
                     costReplace = formerRow[i-1];
                 }
                 else {
@@ -151,21 +153,23 @@ public class WebsitesTrie {
                 costReplace = formerRow[i-1];
             }
             // keep the smallest cost
-            int newCost = Math.min(costDelete, Math.min(costInsert, costReplace));
+            int newCost = Math.min(costDelete, Math.min(costInsert,
+                                    costReplace));
             int index = findEmptySpot(newRow);
             newRow[index] = newCost;
         }
 
-        /* if the cost is smaller or equal to the maximum number of errors and the current node contains an url,
-           that url is added to the list of results*/
+        /* if the cost is smaller or equal to the maximum number of errors and
+           the current node contains an url, that url is added to the list
+           of results*/
         if(newRow[url.length()] <= maxErrors && node.fullUrl!=null){
             int freeSpot = findEmptySpot(results);
             results[freeSpot][0] = node.fullUrl;
             results[freeSpot][1] = newRow[url.length()];
         }
 
-        /* if the smallest number of a row is smaller than or equal to the maximum number of errors,
-           search each branch of the current node */
+        /* if the smallest number of a row is smaller than or equal to the
+           maximum number of errors, search each branch of the current node */
         if(min(newRow)<=maxErrors){
             for(Node child : node.branches){
                 if(child==null){

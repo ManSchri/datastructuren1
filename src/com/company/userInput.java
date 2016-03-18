@@ -2,6 +2,8 @@ package com.company;
 
 import java.util.*;
 
+// creates the interface and lets the user type in an URL
+
 public class UserInput {
 
     String url;
