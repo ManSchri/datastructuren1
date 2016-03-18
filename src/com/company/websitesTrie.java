@@ -1,6 +1,7 @@
 package com.company;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.BufferedReader;
 
 public class WebsitesTrie {
 
@@ -15,7 +16,7 @@ public class WebsitesTrie {
             String url;
             while(true){
                 url = rd.readLine();
-                if(url==null){
+                if(url == null){
                     break;
                 }
                 addURL(url);

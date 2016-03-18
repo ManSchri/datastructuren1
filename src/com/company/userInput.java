@@ -1,6 +1,6 @@
 package com.company;
 
-import java.util.*;
+import java.util.Scanner;
 
 // creates the interface and lets the user type in an URL
 
