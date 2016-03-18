@@ -32,7 +32,6 @@ public class Main {
           break;
         } else {
           System.out.println(foundUrls[i][0]);
-          System.out.println(foundUrls[i][1]);
         }
       }
     }
