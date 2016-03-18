@@ -151,22 +151,22 @@ public class WebsitesTrie {
       }
       // keep the smallest cost
       int newCost = Math.min(costDelete, Math.min(costInsert,
-              costReplace));
+                    costReplace));
       int index = findEmptySpot(newRow);
       newRow[index] = newCost;
     }
 
-      /* if the cost is smaller or equal to the maximum number of errors and
-         the current node contains an url, that url is added to the list
-         of results*/
+    /* if the cost is smaller or equal to the maximum number of errors and
+     *  the current node contains an url, that url is added to the list
+     *  of results */
     if (newRow[url.length()] <= maxErrors && node.fullUrl != null) {
       int freeSpot = findEmptySpot(results);
       results[freeSpot][0] = node.fullUrl;
       results[freeSpot][1] = newRow[url.length()];
     }
 
-      /* if the smallest number of a row is smaller than or equal to the
-         maximum number of errors, search each branch of the current node */
+    /* if the smallest number of a row is smaller than or equal to the
+     * maximum number of errors, search each branch of the current node */
     if (min(newRow) <= maxErrors) {
       for (Node child : node.branches) {
         if (child == null) {
